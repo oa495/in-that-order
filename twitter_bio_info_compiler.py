@@ -17,7 +17,14 @@ api = tweepy.API(auth)
 # which Twitter list and who owns it
 slug = 'members-of-congress'
 owner = 'cspan'
+
+import sexmachine.detector as gender
 d = gender.Detector()
+
+
+
+slug = 'members-of-congress'
+owner = 'cspan'
 
 def get_list_members(api, owner, slug):
 	members = []
@@ -26,6 +33,18 @@ def get_list_members(api, owner, slug):
 		members.append(page)
 		# create a list containing all usernames
   	return [m.screen_name for m in members]
+
+
+
+
+
+
+
+
+
+
+
+
 
 # create new CSV file and add column headings
 def create_csv(filename, usernames):

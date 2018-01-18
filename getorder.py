@@ -28,7 +28,8 @@ data = {
 			"total": 0,
 			"first": 0,
 			"second": 0,
-			"third": 0
+			"third": 0,
+			"only": 0
 		}
 	},
 	"men": {
@@ -52,7 +53,8 @@ data = {
 			"total": 0,
 			"first": 0,
 			"second": 0,
-			"third": 0
+			"third": 0,
+			"only": 0
 		}
 	}
 }
@@ -119,15 +121,16 @@ def addCountsToData():
 def getIndexOfNames(bio, names):
 	arrayOfNames = names.split('|')
 	wordFoundAt = -1
+	bio = bio.lower()
 	for word in arrayOfNames:
-		if bio.find(word) != 1:
+		if bio.find(word) != -1:
 			wordFoundAt = bio.find(word)
 			break
 	return wordFoundAt
 
 def compareIndexes(spouseIndex, parentIndex, key):
 	# if bio has references to both being a spouse and parent
-	if (spouseIndex > -1 & parentIndex > -1):
+	if ((spouseIndex > -1) & (parentIndex > -1)):
 		# both
 		# spouse comes before
 		if (spouseIndex < parentIndex):
@@ -136,7 +139,6 @@ def compareIndexes(spouseIndex, parentIndex, key):
 				data[key]["spouse"]["first"]+=1
 				data[key]["parent"]["second"]+=1
 				data[key]["other"]["third"]+=1
-
 			else:
 				data[key]["other"]["first"]+=1
 				data[key]["spouse"]["second"]+=1
@@ -151,7 +153,7 @@ def compareIndexes(spouseIndex, parentIndex, key):
 				data[key]["other"]["first"]+=1
 				data[key]["parent"]["second"]+=1
 				data[key]["spouse"]["third"]+=1
-	elif (spouseIndex > -1): 
+	elif ((spouseIndex > -1) & (parentIndex == -1)): 
 		# just spouse reference
 		if spouseIndex == 0:
 			data[key]["spouse"]["first"]+=1
@@ -159,7 +161,7 @@ def compareIndexes(spouseIndex, parentIndex, key):
 		else:
 			data[key]["other"]["first"]+=1
 			data[key]["spouse"]["second"]+=1
-	elif (parentIndex > -1): 
+	elif ((parentIndex > -1) & (spouseIndex == -1)): 
 		# just parent reference
 		if parentIndex == 0:
 			data[key]["parent"]["first"]+=1
