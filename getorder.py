@@ -61,6 +61,7 @@ data = {
 
 import pandas as pd
 pd.set_option("display.width", 120)
+# open csv file
 df = pd.read_csv("data/us-congress.csv", header=None, names=["display_name", "bio", "gender"])
 
 def addCountsToData():
@@ -123,8 +124,9 @@ def getIndexOfNames(bio, names):
 	wordFoundAt = -1
 	bio = bio.lower()
 	for word in arrayOfNames:
-		if bio.find(word) != -1:
-			wordFoundAt = bio.find(word)
+		index = bio.find(word)
+		if index != -1:
+			wordFoundAt = index
 			break
 	return wordFoundAt
 
@@ -144,6 +146,7 @@ def compareIndexes(spouseIndex, parentIndex, key):
 				data[key]["spouse"]["second"]+=1
 				data[key]["parent"]["third"]+=1
 		else:
+			# parent comes before
 			if parentIndex == 0:
 				data[key]["parent"]["first"]+=1
 				data[key]["spouse"]["second"]+=1
